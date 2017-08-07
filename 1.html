@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> TIC TAC TOE </title>
+    </head>
+    <body  style="background-color: #c4aedc">
+        <h1 class="child-div">Tic Tac Toe</h1>
+        <div class="parent-div">
+            <input type="button" value=" " onClick="tic(this)" id="1">
+            <input type="button" value=" " onClick="tic(this)" id="2">
+            <input type="button" value=" " onClick="tic(this)" id="3"><br>
+            <input type="button" value=" " onClick="tic(this)" id="4">
+            <input type="button" value=" " onClick="tic(this)" id="5">
+            <input type="button" value=" " onClick="tic(this)" id="6"><br>
+            <input type="button" value=" " onClick="tic(this)" id="7">
+            <input type="button" value=" " onClick="tic(this)" id="8">
+            <input type="button" value=" " onClick="tic(this)" id="9"><br>
+            <p id="p1"> GAME ON </p>
+        </div>
+    </body>
+</html>
+<script>
+var c=0;
+function reset() {
+    c=0; 
+    var inp=document.querySelectorAll('input[type=button]');
+    var i = inp.length;
+    while (i--) inp[i].value=' ';
+    document.querySelector('#p1').innerHTML=' GAME ON ';
+}
+
+function tic(x) {
+    if (x.value!=' ') return; 
+    var p, i = parseInt(x.id);
+    if(c%2==0) {
+
+        p="✕";
+        document.getElementById(i).style.backgroundColor = "#ee7a61";
+    }   
+    else {
+        p="◯";
+        document.getElementById(i).style.backgroundColor = "#85ff6c";
+    }
+    x.value=p;
+    c++;
+    var ix = (i-1)%3;
+    var iy = (i-1-ix)/3;
+
+    if ( (p==document.getElementById(1+3*iy+((ix+1)%3)).value
+        && p==document.getElementById(1+3*iy+((ix+2)%3)).value)
+
+       ||(p==document.getElementById(1+3*((iy+1)%3)+ix).value
+        &&p==document.getElementById(1+3*((iy+2)%3)+ix).value)
+
+       ||((i==1||i==5||i==9)
+        &&p==document.getElementById(1+3*((iy+1)%3)+((ix+1)%3)).value
+        &&p==document.getElementById(1+3*((iy+2)%3)+((ix+2)%3)).value)
+
+       ||((i==7||i==5||i==3)
+        &&p==document.getElementById(1+3*((iy+1)%3)+((ix+2)%3)).value
+        &&p==document.getElementById(1+3*((iy+2)%3)+((ix+1)%3)).value) )
+         {
+        end(p+' user wins');
+    }
+    else if (c==9) {
+        end();
+    }
+}
+function end(win) {
+    win = win || 'no winner';
+    var p1 = document.getElementById("p1");
+    p1.innerHTML = win.toUpperCase();
+    setTimeout(replay,100,win); 
+}
+function replay(win) {
+    if(confirm(win+'\nwant to play again')){
+       
+        reset();
+    }else{
+        alert('fine, if not -_-');
+    }
+}
+</script>
+<style>
+body {
+    padding:0 2em;
+    text-align:center;
+    font-size:3vmin;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:0;
+    min-height:100vh;
+}
+.parent-div{
+    width:100%;
+    border: 0 none transparent;
+
+    box-shadow: 0.5ex 1.5em 3em 1ex black;
+    margin: 0 auto;
+   
+    margin:1.5em 0 0;
+    padding:1em;
+  background:#b0a9e8;
+}
+
+.child-div{
+    display:inline-block;
+
+    width:60%;
+    line-height:15vmin;
+    font-family:monospace;
+    border: 0 none transparent;
+    margin:0 0 1ex;
+    box-shadow: 0 1ex 2em 0.5ex black;
+    background:  #b0a9e8;
+}
+input[type=button] {
+    font-family:monospace;
+    height:20vmin;
+    width:20vmin;
+    margin:0.4vmin 0;
+    font-size:10vmin;
+    vertical-align:bottom;
+}
+p {
+    margin:1em 0 0;
+}
+</style>
